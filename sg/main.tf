@@ -1,5 +1,5 @@
 resource "aws_security_group" "sec_g" {
-  name        = "${var.component}-${var.env}-sg"
+  name        = "${var.component}-${var.env}-sec_g"
   description = "Allow TLS inbound traffic"
 
 
@@ -20,7 +20,7 @@ resource "aws_security_group" "sec_g" {
   }
 
   tags = {
-    Name = "${var.component}-${var.env}-sg"
+    Name = "${var.component}-${var.env}-sec_g"
   }
 }
 

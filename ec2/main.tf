@@ -3,16 +3,18 @@ data "aws_ami" "ami" {
   name_regex    = "Centos-8-DevOps-Practice"
   owners        = ["973714476881"]
 }
-resource "aws_instance" "ec2"{
+resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
-  tags                   =  {
-    Name                 = var.component
+  tags                   = {
+    Name = var.component
   }
+}
+resource "null_resource" "provisioner" {
   provisioner "remote-exec" {
     connection {
-      host     = self.public_ip
+      host     = aws_instance.ec2.public_ip
       user     = "centos"
       password = "DevOps321"
     }

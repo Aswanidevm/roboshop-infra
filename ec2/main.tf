@@ -11,21 +11,7 @@ resource "aws_instance" "ec2" {
     Name = var.component
   }
 }
-resource "null_resource" "provisioner" {
-  provisioner "remote-exec" {
-    connection {
-      host     = aws_instance.ec2.public_ip
-      user     = "centos"
-      password = "DevOps321"
-    }
 
-    inline = [
-    "git clone https://github.com/raghudevopsb71/roboshop-shell.git",
-    "cd roboshop-shell",
-    "sudo bash ${var.component}.sh"
-    ]
-  }
-}
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
@@ -52,7 +38,21 @@ resource "aws_security_group" "sg" {
   }
 }
 
+resource "null_resource" "provisioner" {
+  provisioner "remote-exec" {
+    connection {
+      host     = aws_instance.ec2.public_ip
+      user     = "centos"
+      password = "DevOps321"
+    }
 
+    inline = [
+      "git clone https://github.com/raghudevopsb71/roboshop-shell.git",
+      "cd roboshop-shell",
+      "sudo bash ${var.component}.sh"
+    ]
+  }
+}
 output "private_ip" {
   value = aws_instance.ec2.private_ip
 }

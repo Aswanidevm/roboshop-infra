@@ -1,4 +1,4 @@
-resource "aws_security_group" "sg" {
+resource "aws_security_group" "sec_g" {
   name        = "${var.component}-${var.env}-sg"
   description = "Allow TLS inbound traffic"
 
@@ -25,7 +25,7 @@ resource "aws_security_group" "sg" {
 }
 
 output "sg_id" {
-  value = aws_security_group.sg.id
+  value = aws_security_group.sec_g.id
 }
 
 variable "component" {}

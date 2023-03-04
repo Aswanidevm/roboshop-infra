@@ -17,8 +17,9 @@ output "private_ip" {
 }
 
 variable "component" {}
-variable "instance_type" {}
-variable "sg_id" {}
+
 variable "env" {
   default = "dev"
 }
+variable "instance_type" {}
+variable "sg_id" {}

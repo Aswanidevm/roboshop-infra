@@ -6,11 +6,37 @@ data "aws_ami" "ami" {
 resource "aws_instance" "ec2"{
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
-  vpc_security_group_ids = [var.sg_id]
+  vpc_security_group_ids = [aws_security_group.sg.id]
   tags                   =  {
     Name                 = var.component
   }
 }
+resource "aws_security_group" "sg" {
+  name        = "${var.component}-${var.env}-sg"
+  description = "Allow TLS inbound traffic"
+
+
+  ingress {
+    description      = "all"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "${var.component}-${var.env}-sg"
+  }
+}
+
 
 output "private_ip" {
   value = aws_instance.ec2.private_ip
@@ -22,4 +48,3 @@ variable "env" {
   default = "dev"
 }
 variable "instance_type" {}
-variable "sg_id" {}

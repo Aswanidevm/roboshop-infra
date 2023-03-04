@@ -24,9 +24,6 @@ resource "aws_security_group" "sec_g" {
   }
 }
 
-output "sg_id" {
-  value = aws_security_group.sec_g.id
-}
 
 variable "component" {}
 

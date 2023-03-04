@@ -4,13 +4,6 @@ module "ec2" {
   source = "./ec2"
   component = each.value["Name"]
   instance_type = each.value["type"]
-  sg_id = module.sg.sg_id
-}
-
-module "sg" {
-  for_each = var.instances
-  component = each.value["Name"]
-  source = "./sg"
 }
 
 module "route53" {

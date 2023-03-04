@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg" {
-  name        = "${var.component}-${var.env}-sg"
+  name        = "allowall"
   description = "Allow TLS inbound traffic"
 
 
@@ -21,7 +21,7 @@ resource "aws_security_group" "sg" {
   }
 
   tags = {
-    Name = "${var.component}-${var.env}-sg"
+    Name = "allowall"
   }
 }
 
@@ -29,7 +29,3 @@ output "sg_id" {
   value = aws_security_group.sg.id
 }
 
-variable "component" {}
-variable "env" {
-  default = "dev"
-}

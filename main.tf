@@ -4,6 +4,6 @@ module "ec2" {
   source = "./ec2"
   component = each.value["Name"]
   instance_type = each.value["type"]
-  password      = try(each.value["password"], null)
+  password      = try(each.value["password"], "null")
 }
 

@@ -41,5 +41,9 @@ variable "instances"{
       Name    = "rabbitmq"
       type    = "t3.micro"
        }
+    dispatch  =   {
+      Name    = "dispatch"
+      type    = "t3.micro"
+    }
   }
 }

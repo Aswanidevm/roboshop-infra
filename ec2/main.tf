@@ -7,11 +7,12 @@ data "aws_ami" "ami" {
   owners        = [data.aws_caller_identity.current.account_id]
 }
 resource "aws_spot_instance_request" "ec2" {
-  create_spot_instance = true
+
   spot_type            = "persistent"
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
+  create_spot_instance   = true
   tags                   = {
     Name = var.component
   }

@@ -6,9 +6,7 @@ data "aws_ami" "ami" {
   name_regex    = "practice_devops_ansible"
   owners        = [data.aws_caller_identity.current.account_id]
 }
-resource "aws_spot_instance_request" "ec2" {
-
-  spot_type            = "persistent"
+resource "aws_instance" "ec2" {
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
@@ -21,7 +19,7 @@ resource "null_resource" "provisioner" {
   provisioner "remote-exec" {
 
     connection {
-      host     = aws_spot_instance_request.ec2.public_ip
+      host     = aws_instance.ec2.public_ip
       user     = "centos"
       password = "DevOps321"
     }
@@ -35,7 +33,7 @@ resource "null_resource" "provisioner" {
 
 resource "aws_security_group" "sg" {
   name        = "${var.component}-${var.env}-sg"
-  description = "Allow all TLS inbound traffic"
+  description = "Allow TLS inbound traffic"
 
 
   ingress {
@@ -64,7 +62,7 @@ resource "aws_route53_record" "record" {
   name    = "${var.component}-${var.env}.myprojecdevops.info"
   type    = "A"
   ttl     = 30
-  records = [aws_spot_instance_request.ec2.private_ip]
+  records = [aws_instance.ec2.private_ip]
 }
 variable "component" {}
 variable "instance_type" {}

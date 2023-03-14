@@ -12,7 +12,6 @@ resource "aws_spot_instance_request" "ec2" {
   ami                    = data.aws_ami.ami.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.sg.id]
-  create_spot_instance   = true
   tags                   = {
     Name = var.component
   }

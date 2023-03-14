@@ -21,7 +21,7 @@ resource "null_resource" "provisioner" {
   provisioner "remote-exec" {
 
     connection {
-      host     = ec2_spot_instance_public_ip
+      host     = aws_spot_instance_request.ec2.public_ip
       user     = "centos"
       password = "DevOps321"
     }
@@ -64,7 +64,7 @@ resource "aws_route53_record" "record" {
   name    = "${var.component}-${var.env}.myprojecdevops.info"
   type    = "A"
   ttl     = 30
-  records = [ec2_spot_instance_private_ip]
+  records = [aws_spot_instance_request.ec2.private_ip]
 }
 variable "component" {}
 variable "instance_type" {}
